@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoInternetTableViewCell" rowHeight="182" id="KGk-i7-Jjw" customClass="NoInternetTableViewCell" customModule="PopcornPalooza" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="455" height="182"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="455" height="182"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-WB-zPB">
+                        <rect key="frame" x="0.0" y="0.0" width="455" height="182"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noWifi" translatesAutoresizingMaskIntoConstraints="NO" id="iFg-xP-ocM">
+                                <rect key="frame" x="177.66666666666666" y="0.0" width="99.999999999999972" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="i24-vk-PeQ"/>
+                                    <constraint firstAttribute="height" constant="100" id="xKb-A4-Eez"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are offline. Please, enable your Wi-Fi or connect using cellular data." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-CB-Gsd">
+                                <rect key="frame" x="7.3333333333333428" y="100" width="440.33333333333326" height="82"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="qbE-WB-zPB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="AUO-Co-QFG"/>
+                    <constraint firstItem="qbE-WB-zPB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NQe-JC-P5K"/>
+                    <constraint firstItem="qbE-WB-zPB" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="fKr-OX-NeQ"/>
+                    <constraint firstItem="qbE-WB-zPB" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jDQ-V5-tZs"/>
+                    <constraint firstAttribute="trailing" secondItem="qbE-WB-zPB" secondAttribute="trailing" id="v5E-KK-Jyq"/>
+                    <constraint firstAttribute="bottom" secondItem="qbE-WB-zPB" secondAttribute="bottom" id="zKj-qC-PdV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <point key="canvasLocation" x="81.679389312977094" y="68.309859154929583"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="noWifi" width="512" height="512"/>
+    </resources>
+</document>
