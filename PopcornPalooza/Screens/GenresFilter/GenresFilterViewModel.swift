@@ -8,9 +8,11 @@
 import Foundation
 
 class GenresFilterViewModel {
+  // MARK: - Properties
   var genres: [Genre] = []
   var selectedGenres: [Genre] = []
   
+  // MARK: - Public Metohds
   func updateSelection(with genre: Genre) {
     if let index = selectedGenres.firstIndex(where: { $0.id == genre.id }) {
       selectedGenres.remove(at: index)

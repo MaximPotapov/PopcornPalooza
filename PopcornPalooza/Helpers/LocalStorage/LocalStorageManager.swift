@@ -8,8 +8,10 @@
 import Foundation
 
 final class LocalStorageManager {
+  // MARK: - Properties
   static let shared = LocalStorageManager()
   
+  // MARK: - Public Methods
   func saveGenreFilters(values: [Int]) {
     UserDefaults.standard.set(values, forKey: LocalStorageKeys.genreFilters)
   }

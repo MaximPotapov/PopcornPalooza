@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class MovieTableViewCell: UITableViewCell {
-  
+  // MARK: - @IBOutlet's
   @IBOutlet weak var descriptionView: UIView!
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var genresLabel: UILabel!
@@ -18,38 +18,49 @@ class MovieTableViewCell: UITableViewCell {
   @IBOutlet weak var ratingView: UIView!
   @IBOutlet weak var moviePosterImageView: UIImageView!
   
+  // MARK: - Life Cycle
   override func awakeFromNib() {
-        super.awakeFromNib()
+    super.awakeFromNib()
     self.clipsToBounds = true
     contentView.layer.cornerRadius = 16
     descriptionView.layer.cornerRadius = 16
     ratingView.layer.cornerRadius = 35
     ratingView.layer.borderWidth = 3
     ratingView.layer.borderColor = UIColor.white.cgColor
-    }
+  }
   
   override func layoutSubviews() {
     super.layoutSubviews()
     contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 14, left: 0, bottom: 14, right: 0))
   }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
   
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    
+    // Configure the view for the selected state
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    genresLabel.text = nil
+    nameLabel.text = nil
+    yearLabel.text = nil
+    ratingLabel.text = nil
+    moviePosterImageView.image = nil  
+  }
+  
+  // MARK: - Public Methods
   func configure(with movie: Movie, genres: [String]) {
     let genresString = genres.joined(separator: ", ")
     self.genresLabel.text = genresString
     self.nameLabel.text = movie.title
     self.yearLabel.text = movie.releaseDate
     self.ratingLabel.text = String(movie.voteAverage)
-  
-//    if let posterUrl = movie.posterPath {
-//      if let downloadUrl = URL(string: posterUrl) {
-//        self.moviePosterImageView.kf.setImage(with: downloadUrl)
-//      }
-//    }
+    
+    //    if let posterUrl = movie.posterPath {
+    //      if let downloadUrl = URL(string: posterUrl) {
+    //        self.moviePosterImageView.kf.setImage(with: downloadUrl)
+    //      }
+    //    }
   }
 }

@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 final class AFNetworkManager {
+  // MARK: - Properties
   static let shared = AFNetworkManager()
   private let baseUrl = TMDBAPI.baseUrl
 }
@@ -16,13 +17,13 @@ final class AFNetworkManager {
 
 // MARK: - Movie
 extension AFNetworkManager {
-  func getPopularMovies(page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getPopularMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
       return
     }
     
-    let url = baseUrl + TMDBAPI.getPopularMovies + "?language=\(lang)S&page=\(page)"
+    let offset = (page - 1) * pageSize 
+    let url = baseUrl + TMDBAPI.getPopularMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -43,13 +44,14 @@ extension AFNetworkManager {
       }
   }
   
-  func getTopRatedMovies(page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getTopRatedMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let url = baseUrl + TMDBAPI.getTopRatedMovies + "?language=\(lang)S&page=\(page)"
+    let offset = (page - 1) * pageSize
+    let url = baseUrl + TMDBAPI.getTopRatedMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -70,13 +72,14 @@ extension AFNetworkManager {
       }
   }
   
-  func getNowPlayingMovies(page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getNowPlayingMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let url = baseUrl + TMDBAPI.getNowPlayingMovies + "?language=\(lang)S&page=\(page)"
+    let offset = (page - 1) * pageSize
+    let url = baseUrl + TMDBAPI.getNowPlayingMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -97,13 +100,14 @@ extension AFNetworkManager {
       }
   }
   
-  func getUpcomingMovies(page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getUpcomingMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let url = baseUrl + TMDBAPI.getUpcomingMovies + "?language=\(lang)S&page=\(page)"
+    let offset = (page - 1) * pageSize 
+    let url = baseUrl + TMDBAPI.getUpcomingMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),

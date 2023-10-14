@@ -9,9 +9,11 @@ import Foundation
 import UIKit
 
 final class AppCoordinator {
+  // MARK: - Properties
   private var window: UIWindow
   private var navigationController: UINavigationController
   
+  // MARK: - Life Cycle
   init(window: UIWindow) {
     self.window = window
     let viewModel = FeedViewModel()
@@ -25,6 +27,7 @@ final class AppCoordinator {
     window.makeKeyAndVisible()
   }
   
+  // MARK: Public Methods
   func navigateToDetails(title: String) {
     let viewController = MoviewDetailsViewController(title: title)
     viewController.coordinator = self

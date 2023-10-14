@@ -9,23 +9,25 @@ import Foundation
 import Reachability
 
 final class NetworkMonitor {
-    static let shared = NetworkMonitor()
-    
-    private let reachability = try? Reachability()
-    
-    func startMonitoring() {
-        do {
-            try reachability?.startNotifier()
-        } catch {
-            print("Unable to start reachability notifier")
-        }
+  // MARK: - Properties
+  static let shared = NetworkMonitor()
+  
+  private let reachability = try? Reachability()
+  
+  // MARK: - Public Methods
+  func startMonitoring() {
+    do {
+      try reachability?.startNotifier()
+    } catch {
+      print("Unable to start reachability notifier")
     }
-    
-    func stopMonitoring() {
-        reachability?.stopNotifier()
-    }
-    
-    func isReachable() -> Bool {
-        return reachability?.connection != .unavailable
-    }
+  }
+  
+  func stopMonitoring() {
+    reachability?.stopNotifier()
+  }
+  
+  func isReachable() -> Bool {
+    return reachability?.connection != .unavailable
+  }
 }

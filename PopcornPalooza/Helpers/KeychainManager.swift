@@ -9,6 +9,7 @@ import Foundation
 import Security
 
 final class KeychainManager {
+  // MARK: - Properties
   static let shared = KeychainManager()
   
   private init() {}

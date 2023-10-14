@@ -142,7 +142,6 @@
 		6902ADFA2AD866EA005D5811 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				69B029592ADB375D00395318 /* LocalNotifications */,
 				69B029542ADB2E7400395318 /* LocalStorage */,
 				6902ADFB2AD86708005D5811 /* AppCoordinator.swift */,
 				6902AE082AD86889005D5811 /* AFNetworkManager.swift */,
@@ -256,13 +255,6 @@
 				69B029522ADB2DF400395318 /* LocalStorageManager.swift */,
 			);
 			path = LocalStorage;
-			sourceTree = "<group>";
-		};
-		69B029592ADB375D00395318 /* LocalNotifications */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LocalNotifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

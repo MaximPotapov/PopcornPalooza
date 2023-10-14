@@ -8,14 +8,17 @@
 import UIKit
 
 class GenresFilterViewController: UIViewController {
-  
+  // MARK: - Properties
   var viewModel: GenresFilterViewModel!
   weak var coordinator: AppCoordinator?
   
+  // MARK: - @IBOutlet's
   @IBOutlet weak var tableView: UITableView!
   
   // MARK: - Life Cycle
-  init(viewModel: GenresFilterViewModel, genres: [Genre]) {
+  init(
+    viewModel: GenresFilterViewModel,
+    genres: [Genre]) {
     super.init(nibName: nil, bundle: nil)
     self.viewModel = viewModel
     self.viewModel.genres = genres
@@ -34,6 +37,7 @@ class GenresFilterViewController: UIViewController {
     tableView.reloadData()
   }
   
+  // MARK: - @IBAction's
   @IBAction func clearFiltersTapped(_ sender: UIButton) {
     viewModel.clearFilters()
   }
@@ -43,12 +47,14 @@ class GenresFilterViewController: UIViewController {
   }
 }
 
+// MARK: - UITableViewDelegate
 extension GenresFilterViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     viewModel.updateSelection(with: viewModel.genres[indexPath.row])
   }
 }
 
+// MARK: - UITableViewDataSource
 extension GenresFilterViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     viewModel.genres.count
