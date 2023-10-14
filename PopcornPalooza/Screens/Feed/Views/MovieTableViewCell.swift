@@ -39,12 +39,13 @@ class MovieTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
   
-  func configure(with movie: Movie) {
+  func configure(with movie: Movie, genres: [String]) {
+    let genresString = genres.joined(separator: ", ")
+    self.genresLabel.text = genresString
     self.nameLabel.text = movie.title
-    self.genresLabel.text = ""
     self.yearLabel.text = movie.releaseDate
     self.ratingLabel.text = String(movie.voteAverage)
-//
+  
 //    if let posterUrl = movie.posterPath {
 //      if let downloadUrl = URL(string: posterUrl) {
 //        self.moviePosterImageView.kf.setImage(with: downloadUrl)

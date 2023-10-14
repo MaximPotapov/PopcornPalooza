@@ -16,7 +16,6 @@ class FeedViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: AppCoordinator?
   private let refreshControl = UIRefreshControl()
-  private let movies: [String] = ["1", "2", "3"]
   private var networkStatus: NetworkStatus = .noInternet
   var viewModel: FeedViewModel!
   
@@ -48,6 +47,7 @@ class FeedViewController: UIViewController {
     
     configureNavigationBar()
     configureTableView()
+    NotificationCenter.default.addObserver(self, selector: #selector(updateGenreFiltersEvent), name: .updateGenreFiltersEvent, object: nil)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -56,14 +56,14 @@ class FeedViewController: UIViewController {
   }
   
   @IBAction func filterButtonTapped(_ sender: Any) {
-    
+  
   }
   
   @IBAction func changeCategory(_ sender: UISegmentedControl) {
     guard let dataSource = viewModel.dataSource(for: sender.selectedSegmentIndex) else { return }
-     viewModel.updateDataSource(with: dataSource) { [weak self] in
-         self?.tableView.reloadData()
-     }
+    viewModel.updateDataSource(with: dataSource) { [weak self] in
+      self?.tableView.reloadData()
+    }
   }
 }
 
@@ -74,7 +74,7 @@ private extension FeedViewController {
     
     navigationItem.rightBarButtonItem = FilterButton(
       target: self,
-      action: #selector(leftButtonItemAction),
+      action: #selector(rightButtonItemAction),
       size: CGSize(width: 24, height: 24),
       name: "filter"
     )
@@ -92,33 +92,34 @@ private extension FeedViewController {
   }
   
   @objc func rightButtonItemAction() {
+    coordinator?.presentFilters(genres: viewModel.movieGenres)
+  }
+  
+  @objc private func updateGenreFiltersEvent() {
+    let filters = viewModel.selectedMoviewGenres
     
+    if !filters.isEmpty {
+      viewModel.searchFilteredMovies = viewModel.currentDataSource.filter { movie in
+        let commonIds = Set(movie.genreIds).intersection(filters)
+        return !commonIds.isEmpty
+      }
+      
+      viewModel.updateDataSource(with: .searched, completion: { self.tableView.reloadData() })
+    } else {
+      viewModel.revertToOriginalDataSource(completion: { self.tableView.reloadData() })
+    }
   }
-  
-  @objc func leftButtonItemAction() {
 
-  }
-  
   @objc func refreshData() {
     // Check if the user has enabled internet connectivity
     if NetworkMonitor.shared.isReachable() {
       print("Ok")
-      // The user has internet connectivity, proceed with data refresh.
-      // Place the code here to refresh your data.
-      // - Fetch new data from your data source.
-      // - Reload your table view.
-      // - End the refreshing animation.
-      
-      // For example, you can reload your table view's data and then end the refreshing:
-
     } else {
-      // The user does not have internet connectivity.
-      // You can show an alert or a message to inform the user.
       tableView.separatorStyle = .none
     }
     
     tableView.reloadData()
-    refreshControl.endRefreshing() // Stop the refreshing animation.
+    refreshControl.endRefreshing()
     updateFilertButtonUI()
   }
   
@@ -139,6 +140,7 @@ private extension FeedViewController {
       }
     })
     
+    viewModel.fetchMovieGenres()
     viewModel.fetchTopRatedMovies(completion: { _ in })
     viewModel.fetchUpcomingMovies(completion: { _ in })
     viewModel.fetchNowPlayingMovies(completion: { _ in })
@@ -155,13 +157,21 @@ extension FeedViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension FeedViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    let filters = viewModel.selectedMoviewGenres
+    
     switch networkStatus {
       case .noInternet: return 1
-      case .connected: return viewModel.currentDataSource.count
+      case .connected:
+        if filters.isEmpty {
+          return viewModel.currentDataSource.count
+        } else {
+          return viewModel.returnFilteredByGenresDataSource().count
+        }
     }
   }
     
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let filters = viewModel.selectedMoviewGenres
     switch networkStatus {
       case .noInternet:
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoInternetTableViewCell", for: indexPath) as? NoInternetTableViewCell else {
@@ -172,18 +182,35 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as? MovieTableViewCell else {
           return UITableViewCell()
         }
+        
+        let movie: Movie
+        
+        if filters.isEmpty {
+          movie = viewModel.currentDataSource[indexPath.row]
+        } else {
+          movie = viewModel.returnFilteredByGenresDataSource()[indexPath.row]
+        }
+
+        let genreNames = viewModel.movieGenres.filter { genre in
+          movie.genreIds.contains(genre.id)
+        }.map { $0.name }
   
-        cell.configure(with: viewModel.currentDataSource[indexPath.row])
+        cell.configure(with: movie, genres: genreNames)
         return cell
     }
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let filters = viewModel.selectedMoviewGenres
     switch networkStatus {
       case .noInternet:
         break
       case .connected:
-        coordinator?.navigateToDetails(title: movies[indexPath.row])
+        if filters.isEmpty {
+          coordinator?.navigateToDetails(title: viewModel.currentDataSource[indexPath.row].title)
+        } else {
+          coordinator?.navigateToDetails(title: viewModel.returnFilteredByGenresDataSource()[indexPath.row].title)
+        }
     }
   }
 }
@@ -201,6 +228,7 @@ extension FeedViewController: UISearchBarDelegate {
       viewModel.searchFilteredMovies = viewModel.currentDataSource.filter { movie in
         return movie.title.localizedCaseInsensitiveContains(searchText)
       }
+      
       viewModel.updateDataSource(with: .searched, completion: { self.tableView.reloadData() })
     }
   }

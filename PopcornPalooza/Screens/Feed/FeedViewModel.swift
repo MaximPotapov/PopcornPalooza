@@ -29,6 +29,8 @@ class FeedViewModel {
   }
   
   var searchFilteredMovies: [Movie] = []
+  var movieGenres: [Genre] = []
+  var selectedMoviewGenres: [Int] = LocalStorageManager.shared.getGenreFilters()
   
   private var originalDataSource: DataSource = .popular
   private var popularMovies: [Movie] = []
@@ -62,6 +64,17 @@ class FeedViewModel {
     completion()
   }
   
+  func returnFilteredByGenresDataSource() -> [Movie] {
+    let filters = LocalStorageManager.shared.getGenreFilters()
+    return currentDataSource.filter { movie in
+      let commonIds = Set(movie.genreIds).intersection(filters)
+      return !commonIds.isEmpty
+    }
+  }
+}
+
+// MARK: - Movies
+extension FeedViewModel {
   func fetchPopularMovies(completion: @escaping (Bool) -> Void) {
     AFNetworkManager.shared.getPopularMovies(page: 1, completion: { result in
       switch result {
@@ -109,6 +122,20 @@ class FeedViewModel {
           completion(true)
         case .failure(let error):
           completion(false)
+          log.error("")
+      }
+    })
+  }
+}
+
+// MARK: - Genres
+extension FeedViewModel {
+  func fetchMovieGenres() {
+    AFNetworkManager.shared.fetchMovieGenres(completion: { result in
+      switch result {
+        case .success(let success):
+          self.movieGenres = success.genres
+        case .failure(let failure):
           log.error("")
       }
     })

@@ -13,4 +13,5 @@ struct TMDBAPI {
   static let getTopRatedMovies = "movie/top_rated"
   static let getUpcomingMovies = "movie/upcoming"
   static let getNowPlayingMovies = "movie/now_playing"
+  static let getGenreTypes = "genre/movie/list"
 }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AppCoordinator {
+final class AppCoordinator {
   private var window: UIWindow
   private var navigationController: UINavigationController
   
@@ -29,5 +29,19 @@ class AppCoordinator {
     let viewController = MoviewDetailsViewController(title: title)
     viewController.coordinator = self
     navigationController.pushViewController(viewController, animated: true)
+  }
+  
+  func presentFilters(genres: [Genre]) {
+    let viewModel = GenresFilterViewModel()
+    let viewController = GenresFilterViewController(viewModel: viewModel, genres: genres)
+    viewController.coordinator = self
+    navigationController.modalPresentationStyle = .pageSheet
+    if let sheet = viewController.sheetPresentationController {
+      sheet.detents = [.large()]
+      sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+      sheet.prefersGrabberVisible = true
+    }
+    
+    navigationController.present(viewController, animated: true)
   }
 }

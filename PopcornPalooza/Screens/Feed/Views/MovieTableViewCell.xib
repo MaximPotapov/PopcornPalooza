@@ -24,27 +24,32 @@
                         <rect key="frame" x="0.0" y="223" width="370" height="100"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="igs-Ik-dFH">
-                                <rect key="frame" x="10.000000000000007" y="5" width="125.66666666666669" height="77"/>
+                                <rect key="frame" x="10" y="5" width="260" height="70.333333333333329"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLC PUNK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gx1-o8-CrO">
-                                        <rect key="frame" x="0.0" y="0.0" width="105.33333333333333" height="26.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLC PUNK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gx1-o8-CrO">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="21.666666666666668"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical, Music" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6c-DE-Gjd">
-                                        <rect key="frame" x="0.0" y="31.333333333333314" width="125.66666666666667" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical, Music" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6c-DE-Gjd">
+                                        <rect key="frame" x="0.0" y="26.666666666666657" width="260" height="19.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1988" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shF-0W-xTc">
-                                        <rect key="frame" x="0.0" y="56.666666666666693" width="39" height="20.333333333333336"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1988" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shF-0W-xTc">
+                                        <rect key="frame" x="0.0" y="51" width="37" height="19.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="S6c-DE-Gjd" secondAttribute="trailing" id="VS5-nV-YHx"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gx1-o8-CrO" secondAttribute="trailing" id="siQ-sY-kVa"/>
+                                </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0W-3t-YM2">
                                 <rect key="frame" x="280" y="15" width="70" height="70"/>
@@ -69,6 +74,7 @@
                         <constraints>
                             <constraint firstItem="igs-Ik-dFH" firstAttribute="leading" secondItem="wzq-si-hQk" secondAttribute="leading" constant="10" id="1wf-eO-Anv"/>
                             <constraint firstAttribute="height" constant="100" id="Hz7-MF-Fld"/>
+                            <constraint firstItem="c0W-3t-YM2" firstAttribute="leading" secondItem="igs-Ik-dFH" secondAttribute="trailing" constant="10" id="PYh-yT-ug9"/>
                             <constraint firstItem="igs-Ik-dFH" firstAttribute="top" secondItem="wzq-si-hQk" secondAttribute="top" constant="5" id="hlm-At-GMQ"/>
                             <constraint firstItem="c0W-3t-YM2" firstAttribute="centerY" secondItem="wzq-si-hQk" secondAttribute="centerY" id="rOO-ie-qAu"/>
                             <constraint firstAttribute="trailing" secondItem="c0W-3t-YM2" secondAttribute="trailing" constant="20" id="urB-DX-VCh"/>

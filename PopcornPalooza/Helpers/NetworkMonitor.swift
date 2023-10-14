@@ -8,7 +8,7 @@
 import Foundation
 import Reachability
 
-class NetworkMonitor {
+final class NetworkMonitor {
     static let shared = NetworkMonitor()
     
     private let reachability = try? Reachability()
