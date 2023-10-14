@@ -14,7 +14,8 @@ class AppCoordinator {
   
   init(window: UIWindow) {
     self.window = window
-    let viewController = FeedViewController()
+    let viewModel = FeedViewModel()
+    let viewController = FeedViewController(viewModel: viewModel)
     self.navigationController = UINavigationController(rootViewController: viewController)
     viewController.coordinator = self
   }

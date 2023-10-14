@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedViewController" customModule="PopcornPalooza" customModuleProvider="target">
             <connections>
+                <outlet property="categoriesSegmentedControl" destination="ny1-oE-EMi" id="Ml9-1U-EsH"/>
                 <outlet property="filterButton" destination="bsf-IF-rLl" id="Txc-yV-bnE"/>
                 <outlet property="searchBar" destination="whM-1z-Qr5" id="uQp-iq-bM7"/>
                 <outlet property="tableView" destination="fOl-Rh-XLh" id="j1j-IP-L5W"/>
@@ -30,7 +31,7 @@
                     </connections>
                 </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fOl-Rh-XLh">
-                    <rect key="frame" x="16" y="125" width="361" height="727"/>
+                    <rect key="frame" x="16" y="166" width="361" height="686"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -53,18 +54,33 @@
                         <action selector="filterButtonTapped:" destination="-1" eventType="touchUpInside" id="NXW-12-N08"/>
                     </connections>
                 </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ny1-oE-EMi">
+                    <rect key="frame" x="20" y="125" width="353" height="32"/>
+                    <segments>
+                        <segment title="Popular"/>
+                        <segment title="Top Rated"/>
+                        <segment title="Now Playing"/>
+                        <segment title="Upcoming"/>
+                    </segments>
+                    <connections>
+                        <action selector="changeCategory:" destination="-1" eventType="valueChanged" id="oeG-l1-CZE"/>
+                    </connections>
+                </segmentedControl>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" name="Cream"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bsf-IF-rLl" secondAttribute="trailing" constant="16" id="6JI-G4-2Bo"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fOl-Rh-XLh" secondAttribute="trailing" constant="16" id="9Gw-Xv-X1F"/>
+                <constraint firstItem="fOl-Rh-XLh" firstAttribute="top" secondItem="ny1-oE-EMi" secondAttribute="bottom" constant="10" id="C7G-hI-vfK"/>
                 <constraint firstItem="fOl-Rh-XLh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="HMr-4m-8EX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ny1-oE-EMi" secondAttribute="trailing" constant="20" id="PHA-R9-wdn"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="bsf-IF-rLl" secondAttribute="bottom" constant="32" id="RsD-zf-5dF"/>
-                <constraint firstItem="fOl-Rh-XLh" firstAttribute="top" secondItem="whM-1z-Qr5" secondAttribute="bottom" constant="10" id="f3u-7V-V2q"/>
+                <constraint firstItem="ny1-oE-EMi" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="X41-8C-U1u"/>
                 <constraint firstItem="whM-1z-Qr5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="f5S-f3-mjx"/>
                 <constraint firstItem="whM-1z-Qr5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iyF-i9-LTc"/>
                 <constraint firstAttribute="bottom" secondItem="fOl-Rh-XLh" secondAttribute="bottom" id="mtW-Cm-Yuk"/>
+                <constraint firstItem="ny1-oE-EMi" firstAttribute="top" secondItem="whM-1z-Qr5" secondAttribute="bottom" constant="10" id="viw-yc-cRF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="whM-1z-Qr5" secondAttribute="trailing" constant="12" id="wQc-zS-Nus"/>
             </constraints>
             <point key="canvasLocation" x="133.58778625954199" y="19.718309859154932"/>
@@ -72,9 +88,6 @@
     </objects>
     <resources>
         <image name="filter" width="32" height="32"/>
-        <namedColor name="Cream">
-            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Mint">
             <color red="0.0078431372549019607" green="0.76470588235294112" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

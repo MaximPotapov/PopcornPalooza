@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -66,7 +65,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" name="Teal"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="igs-Ik-dFH" firstAttribute="leading" secondItem="wzq-si-hQk" secondAttribute="leading" constant="10" id="1wf-eO-Anv"/>
                             <constraint firstAttribute="height" constant="100" id="Hz7-MF-Fld"/>
@@ -92,6 +91,7 @@
             <connections>
                 <outlet property="descriptionView" destination="wzq-si-hQk" id="DxE-Z7-V9h"/>
                 <outlet property="genresLabel" destination="S6c-DE-Gjd" id="v7u-zU-9L9"/>
+                <outlet property="moviePosterImageView" destination="rhw-eS-lh4" id="k2y-7y-Qkd"/>
                 <outlet property="nameLabel" destination="Gx1-o8-CrO" id="uJz-WX-X7D"/>
                 <outlet property="ratingLabel" destination="CDc-6b-nb9" id="XA3-Du-0Zm"/>
                 <outlet property="ratingView" destination="c0W-3t-YM2" id="tBU-j9-ey6"/>
@@ -102,8 +102,5 @@
     </objects>
     <resources>
         <image name="movie_placeholder" width="295" height="475"/>
-        <namedColor name="Teal">
-            <color red="0.0078431372549019607" green="0.50196078431372548" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
 </document>

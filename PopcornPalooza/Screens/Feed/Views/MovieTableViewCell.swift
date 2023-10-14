@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MovieTableViewCell: UITableViewCell {
   
@@ -15,7 +16,7 @@ class MovieTableViewCell: UITableViewCell {
   @IBOutlet weak var yearLabel: UILabel!
   @IBOutlet weak var ratingLabel: UILabel!
   @IBOutlet weak var ratingView: UIView!
-  
+  @IBOutlet weak var moviePosterImageView: UIImageView!
   
   override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,5 +38,17 @@ class MovieTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+  
+  func configure(with movie: Movie) {
+    self.nameLabel.text = movie.title
+    self.genresLabel.text = ""
+    self.yearLabel.text = movie.releaseDate
+    self.ratingLabel.text = String(movie.voteAverage)
+//
+//    if let posterUrl = movie.posterPath {
+//      if let downloadUrl = URL(string: posterUrl) {
+//        self.moviePosterImageView.kf.setImage(with: downloadUrl)
+//      }
+//    }
+  }
 }

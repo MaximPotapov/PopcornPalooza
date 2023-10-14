@@ -8,7 +8,7 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-  enum Status {
+  enum NetworkStatus {
     case connected
     case noInternet
   }
@@ -17,44 +17,57 @@ class FeedViewController: UIViewController {
   weak var coordinator: AppCoordinator?
   private let refreshControl = UIRefreshControl()
   private let movies: [String] = ["1", "2", "3"]
-  private var status: Status = .noInternet
+  private var networkStatus: NetworkStatus = .noInternet
+  var viewModel: FeedViewModel!
   
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var filterButton: UIButton!
+  @IBOutlet weak var categoriesSegmentedControl: UISegmentedControl!
   
   // MARK: - Life Cycle
+  init(viewModel: FeedViewModel) {
+      super.init(nibName: nil, bundle: nil)
+      self.viewModel = viewModel
+  }
+
+  required init?(coder: NSCoder) {
+      super.init(coder: coder)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.hideKeyboardWhenTappedAround()
+    
+    if NetworkMonitor.shared.isReachable() {
+      self.networkStatus = .connected
+      self.fetchData()
+    } else {
+      self.networkStatus = .noInternet
+    }
+    
     configureNavigationBar()
-    AFNetworkManager.shared.getGuestSession(completion: { result in })
-    tableView.delegate = self
-    tableView.dataSource = self
-    tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil), forCellReuseIdentifier: "MovieTableViewCell")
-    tableView.register(UINib(nibName: "NoInternetTableViewCell", bundle: nil), forCellReuseIdentifier: "NoInternetTableViewCell")
-    
-    tableView.addSubview(refreshControl)
-    
-    // Set the action for the refresh control
-    refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    configureTableView()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     filterButton.layer.cornerRadius = 20
-    if NetworkMonitor.shared.isReachable() {
-      self.status = .connected
-    } else {
-      self.status = .noInternet
-    }
-    
     updateFilertButtonUI()
   }
   
   @IBAction func filterButtonTapped(_ sender: Any) {
     
   }
+  
+  @IBAction func changeCategory(_ sender: UISegmentedControl) {
+    guard let dataSource = viewModel.dataSource(for: sender.selectedSegmentIndex) else { return }
+     viewModel.updateDataSource(with: dataSource) { [weak self] in
+         self?.tableView.reloadData()
+     }
+  }
 }
 
+// MARK: - Private Methods
 private extension FeedViewController {
   func configureNavigationBar() {
     self.title = "Porcorn Palooza 🍿"
@@ -65,6 +78,17 @@ private extension FeedViewController {
       size: CGSize(width: 24, height: 24),
       name: "filter"
     )
+  }
+  
+  func configureTableView() {
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil), forCellReuseIdentifier: "MovieTableViewCell")
+    tableView.register(UINib(nibName: "NoInternetTableViewCell", bundle: nil), forCellReuseIdentifier: "NoInternetTableViewCell")
+    
+    tableView.addSubview(refreshControl)
+    refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    searchBar.delegate = self
   }
   
   @objc func rightButtonItemAction() {
@@ -99,29 +123,46 @@ private extension FeedViewController {
   }
   
   func updateFilertButtonUI() {
-    switch status {
+    switch networkStatus {
       case .noInternet: filterButton.setImage(UIImage(named: "sad"), for: .normal)
       case .connected: filterButton.setImage(UIImage(named: "filter"), for: .normal)
     }
   }
+  
+  func fetchData() {
+    viewModel.fetchPopularMovies(completion: { [weak self] result in
+      guard let self else { return }
+      if result {
+        self.viewModel.updateDataSource(with: .popular, completion: { self.tableView.reloadData() })
+      } else {
+        self.showAlert(with: "Oops")
+      }
+    })
+    
+    viewModel.fetchTopRatedMovies(completion: { _ in })
+    viewModel.fetchUpcomingMovies(completion: { _ in })
+    viewModel.fetchNowPlayingMovies(completion: { _ in })
+  }
 }
 
+// MARK: - UITableViewDelegate
 extension FeedViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return NetworkMonitor.shared.isReachable() ?  UITableView.automaticDimension : 200
   }
 }
 
+// MARK: - UITableViewDataSource
 extension FeedViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch status {
+    switch networkStatus {
       case .noInternet: return 1
-      case .connected: return movies.count
+      case .connected: return viewModel.currentDataSource.count
     }
   }
     
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    switch status {
+    switch networkStatus {
       case .noInternet:
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoInternetTableViewCell", for: indexPath) as? NoInternetTableViewCell else {
           return UITableViewCell()
@@ -131,16 +172,36 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as? MovieTableViewCell else {
           return UITableViewCell()
         }
+  
+        cell.configure(with: viewModel.currentDataSource[indexPath.row])
         return cell
     }
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    switch status {
+    switch networkStatus {
       case .noInternet:
         break
       case .connected:
         coordinator?.navigateToDetails(title: movies[indexPath.row])
+    }
+  }
+}
+
+// MARK: - UISearchBarDelegate
+extension FeedViewController: UISearchBarDelegate {
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    viewModel.saveOriginalDataSource()
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchText.isEmpty {
+      viewModel.revertToOriginalDataSource(completion: { self.tableView.reloadData() })
+    } else {
+      viewModel.searchFilteredMovies = viewModel.currentDataSource.filter { movie in
+        return movie.title.localizedCaseInsensitiveContains(searchText)
+      }
+      viewModel.updateDataSource(with: .searched, completion: { self.tableView.reloadData() })
     }
   }
 }
