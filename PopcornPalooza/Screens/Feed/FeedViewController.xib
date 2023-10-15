@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedViewController" customModule="PopcornPalooza" customModuleProvider="target">
+            <connections>
+                <outlet property="categoriesSegmentedControl" destination="ny1-oE-EMi" id="Ml9-1U-EsH"/>
+                <outlet property="filterButton" destination="bsf-IF-rLl" id="Txc-yV-bnE"/>
+                <outlet property="searchBar" destination="whM-1z-Qr5" id="uQp-iq-bM7"/>
+                <outlet property="tableView" destination="fOl-Rh-XLh" id="j1j-IP-L5W"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="whM-1z-Qr5">
+                    <rect key="frame" x="12" y="59" width="369" height="56"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="1Lx-bc-zKf"/>
+                    </connections>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fOl-Rh-XLh">
+                    <rect key="frame" x="16" y="166" width="361" height="686"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-IF-rLl">
+                    <rect key="frame" x="317" y="726" width="60" height="60"/>
+                    <color key="backgroundColor" name="Mint"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="71f-rj-lZJ"/>
+                        <constraint firstAttribute="height" constant="60" id="Ksw-26-168"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="filter">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                    </state>
+                    <buttonConfiguration key="configuration" style="plain" image="filter">
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="filterButtonTapped:" destination="-1" eventType="touchUpInside" id="NXW-12-N08"/>
+                    </connections>
+                </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ny1-oE-EMi">
+                    <rect key="frame" x="20" y="125" width="353" height="32"/>
+                    <segments>
+                        <segment title="Popular"/>
+                        <segment title="Top Rated"/>
+                        <segment title="Now Playing"/>
+                        <segment title="Upcoming"/>
+                    </segments>
+                    <connections>
+                        <action selector="changeCategory:" destination="-1" eventType="valueChanged" id="oeG-l1-CZE"/>
+                    </connections>
+                </segmentedControl>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bsf-IF-rLl" secondAttribute="trailing" constant="16" id="6JI-G4-2Bo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fOl-Rh-XLh" secondAttribute="trailing" constant="16" id="9Gw-Xv-X1F"/>
+                <constraint firstItem="fOl-Rh-XLh" firstAttribute="top" secondItem="ny1-oE-EMi" secondAttribute="bottom" constant="10" id="C7G-hI-vfK"/>
+                <constraint firstItem="fOl-Rh-XLh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="HMr-4m-8EX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ny1-oE-EMi" secondAttribute="trailing" constant="20" id="PHA-R9-wdn"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="bsf-IF-rLl" secondAttribute="bottom" constant="32" id="RsD-zf-5dF"/>
+                <constraint firstItem="ny1-oE-EMi" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="X41-8C-U1u"/>
+                <constraint firstItem="whM-1z-Qr5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="f5S-f3-mjx"/>
+                <constraint firstItem="whM-1z-Qr5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iyF-i9-LTc"/>
+                <constraint firstAttribute="bottom" secondItem="fOl-Rh-XLh" secondAttribute="bottom" id="mtW-Cm-Yuk"/>
+                <constraint firstItem="ny1-oE-EMi" firstAttribute="top" secondItem="whM-1z-Qr5" secondAttribute="bottom" constant="10" id="viw-yc-cRF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="whM-1z-Qr5" secondAttribute="trailing" constant="12" id="wQc-zS-Nus"/>
+            </constraints>
+            <point key="canvasLocation" x="133.58778625954199" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="filter" width="32" height="32"/>
+        <namedColor name="Mint">
+            <color red="0.0078431372549019607" green="0.76470588235294112" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

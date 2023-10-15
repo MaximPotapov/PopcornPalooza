@@ -6,17 +6,24 @@
 //
 
 import UIKit
+import SwiftyBeaver
+
+let log = SwiftyBeaver.self
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
-
-
+  private var appCoordinator: AppCoordinator?
+  
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-    // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-    // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-    // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-    guard let _ = (scene as? UIWindowScene) else { return }
+    guard let windowScene = (scene as? UIWindowScene) else { return }
+    configureLogger()
+    let window = UIWindow(windowScene: windowScene)
+    self.window = window
+    appCoordinator = AppCoordinator(window: window)
+    appCoordinator?.start()
+    
+    KeychainManager.shared.storeAccessToken(token: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGNiOWRlMTE1OWU5OTVkYTMzY2NmYjY1OWQ0ZGEyYiIsInN1YiI6IjY1MjgyMTdmMzc4MDYyMDExYzA5MzA3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zK_4lb5GJxJFjolG1s6GQtKrOmnfDElrqp937XIO8sY")
   }
 
   func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +54,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // to restore the scene back to its current state.
   }
 
-
+  private func configureLogger() {
+    let console = ConsoleDestination()
+    console.format = "Beawer - $C $DHH:mm:ss$d $F $M"
+    log.addDestination(console)
+  }
 }
 
