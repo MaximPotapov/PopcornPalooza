@@ -28,8 +28,9 @@ final class AppCoordinator {
   }
   
   // MARK: Public Methods
-  func navigateToDetails(title: String) {
-    let viewController = MoviewDetailsViewController(title: title)
+  func navigateToDetails(movieId: Int) {
+    let viewModel = MovieDetailsViewModel()
+    let viewController = MoviewDetailsViewController(movieId: movieId, viewModel: viewModel)
     viewController.coordinator = self
     navigationController.pushViewController(viewController, animated: true)
   }
@@ -38,6 +39,18 @@ final class AppCoordinator {
     let viewModel = GenresFilterViewModel()
     let viewController = GenresFilterViewController(viewModel: viewModel, genres: genres)
     viewController.coordinator = self
+    navigationController.modalPresentationStyle = .pageSheet
+    if let sheet = viewController.sheetPresentationController {
+      sheet.detents = [.large()]
+      sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+      sheet.prefersGrabberVisible = true
+    }
+    
+    navigationController.present(viewController, animated: true)
+  }
+  
+  func presentPoster(movie: MovieDetails) {
+    let viewController = PosterViewController(movie: movie)
     navigationController.modalPresentationStyle = .pageSheet
     if let sheet = viewController.sheetPresentationController {
       sheet.detents = [.large()]

@@ -19,20 +19,19 @@ class FeedViewModel {
   
   var dataSource: DataSource = .popular
   var currentPage: Int = 1
-  var totalPages: Int = 5
-  
   var currentDataSource: [Movie] {
-      switch dataSource {
+    switch dataSource {
       case .popular: return popularMovies
       case .topRated: return toRatedMovies
       case .nowPlaying: return nowPlayingMovies
       case .upcoming: return upcomingMovies
       case .searched: return searchFilteredMovies
-      }
+    }
   }
   
   var searchFilteredMovies: [Movie] = []
   var movieGenres: [Genre] = []
+  var isPaginating = false
   
   private var originalDataSource: DataSource = .popular
   private var popularMovies: [Movie] = []
@@ -44,11 +43,11 @@ class FeedViewModel {
   func updateDataSource(
     with dataSource: DataSource,
     completion: @escaping () -> Void) {
-    self.dataSource = dataSource
-    self.currentPage = 1
-    log.debug("Current data source: \(dataSource) with \(currentDataSource.count) elements")
-    completion()
-  }
+      self.dataSource = dataSource
+      self.currentPage = 1
+      log.debug("Current data source: \(dataSource) with \(currentDataSource.count) elements")
+      completion()
+    }
   
   func dataSource(
     for selectedIndex: Int)
@@ -86,86 +85,131 @@ class FeedViewModel {
 // MARK: - Movies
 extension FeedViewModel {
   func fetchPopularMovies(
-    page: Int,
-    pageSize: Int,
+    paging: Bool,
     completion: @escaping (Bool) -> Void) {
-    AFNetworkManager.shared.getPopularMovies(
-      page: page,
-      pageSize: pageSize) { [weak self] result in
-      guard let self = self else { return }
-      switch result {
-        case .success(let movies):
-          if page == 1 {
-            self.popularMovies = movies.results
-          } else {
-            self.popularMovies.append(contentsOf: movies.results)
+      if paging {
+        self.isPaginating = true
+      }
+      
+      AFNetworkManager.shared.getPopularMovies(
+        paging: paging,
+        page: currentPage) { [weak self] result in
+          guard let self = self else { return }
+          switch result {
+            case .success(let movies):
+              if !paging {
+                self.popularMovies = movies.results
+              } else {
+                self.popularMovies.append(contentsOf: movies.results)
+              }
+              completion(true)
+              
+              if paging {
+                self.currentPage += 1
+                self.isPaginating = false
+              }
+            case .failure(let error):
+              completion(false)
+              log.error(error.localizedDescription)
           }
-          
-          self.currentPage += 1
-          completion(true)
-        case .failure(let error):
-          completion(false)
-          log.error(error.localizedDescription)
-      }
+        }
     }
-  }
   
-   func fetchTopRatedMovies(
-    page: Int,
-    pageSize: Int,
+  func fetchTopRatedMovies(
+    paging: Bool,
     completion: @escaping (Bool) -> Void) {
-    AFNetworkManager.shared.getTopRatedMovies(
-      page: page,
-      pageSize: pageSize,
-      completion: { result in
-      switch result {
-        case .success(let movies):
-          self.toRatedMovies = movies.results
-          completion(true)
-        case .failure(_):
-          completion(false)
-          log.error("")
+      if paging {
+        self.isPaginating = true
       }
-    })
-  }
+      
+      AFNetworkManager.shared.getTopRatedMovies(
+        paging: paging,
+        page: currentPage) { [weak self] result in
+          guard let self = self else { return }
+          switch result {
+            case .success(let movies):
+              if !paging {
+                self.toRatedMovies = movies.results
+              } else {
+                self.toRatedMovies.append(contentsOf: movies.results)
+              }
+              
+              completion(true)
+              
+              if paging {
+                self.currentPage += 1
+                self.isPaginating = false
+              }
+            case .failure(_):
+              completion(false)
+              log.error("")
+          }
+        }
+    }
   
   func fetchNowPlayingMovies(
-    page: Int,
-    pageSize: Int,
+    paging: Bool,
     completion: @escaping (Bool) -> Void) {
-    AFNetworkManager.shared.getNowPlayingMovies(
-      page: page,
-      pageSize: pageSize,
-      completion: { result in
-      switch result {
-        case .success(let movies):
-          self.nowPlayingMovies = movies.results
-          completion(true)
-        case .failure(_):
-          completion(false)
-          log.error("")
+      if paging {
+        self.isPaginating = true
       }
-    })
-  }
+      
+      AFNetworkManager.shared.getNowPlayingMovies(
+        paging: paging,
+        page: currentPage) { [weak self] result in
+          guard let self = self else { return }
+          switch result {
+            case .success(let movies):
+              if !paging {
+                self.nowPlayingMovies = movies.results
+              } else {
+                self.nowPlayingMovies.append(contentsOf: movies.results)
+              }
+              
+              completion(true)
+              
+              if paging {
+                self.currentPage += 1
+                self.isPaginating = false
+              }
+            case .failure(_):
+              completion(false)
+              log.error("")
+          }
+        }
+    }
   
   func fetchUpcomingMovies(
-    page: Int,
-    pageSize: Int,
+    paging: Bool,
     completion: @escaping (Bool) -> Void) {
-    AFNetworkManager.shared.getUpcomingMovies(
-      page: page,
-      pageSize: pageSize,
-      completion: { result in
-      switch result {
-        case .success(let movies):
-          self.upcomingMovies = movies.results
-          completion(true)
-        case .failure(_):
-          completion(false)
-          log.error("")
+      if paging {
+        self.isPaginating = true
       }
-    })
-  }
+      
+      AFNetworkManager.shared.getUpcomingMovies(
+        paging: paging,
+        page: currentPage) { [weak self] result in
+          guard let self = self else { return }
+          switch result {
+            case .success(let movies):
+              if !paging {
+                self.upcomingMovies = movies.results
+              } else {
+                self.upcomingMovies.append(contentsOf: movies.results)
+              }
+              
+              completion(true)
+              
+              if paging {
+                self.currentPage += 1
+                self.isPaginating = false
+              }
+            case .failure(_):
+              completion(false)
+              log.error("")
+          }
+        }
+    }
 }
 
 // MARK: - Genres

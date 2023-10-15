@@ -40,15 +40,6 @@ class MovieTableViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    genresLabel.text = nil
-    nameLabel.text = nil
-    yearLabel.text = nil
-    ratingLabel.text = nil
-    moviePosterImageView.image = nil  
-  }
-  
   // MARK: - Public Methods
   func configure(with movie: Movie, genres: [String]) {
     let genresString = genres.joined(separator: ", ")
@@ -57,10 +48,10 @@ class MovieTableViewCell: UITableViewCell {
     self.yearLabel.text = movie.releaseDate
     self.ratingLabel.text = String(movie.voteAverage)
     
-    //    if let posterUrl = movie.posterPath {
-    //      if let downloadUrl = URL(string: posterUrl) {
-    //        self.moviePosterImageView.kf.setImage(with: downloadUrl)
-    //      }
-    //    }
+    if let posterUrl = movie.posterPath {
+      if let downloadUrl = URL(string: TMDBAPI.downloadImage + posterUrl) {
+        self.moviePosterImageView.kf.setImage(with: downloadUrl)
+      }
+    }
   }
 }

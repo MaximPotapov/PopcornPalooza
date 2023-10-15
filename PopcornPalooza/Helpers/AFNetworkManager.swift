@@ -17,13 +17,12 @@ final class AFNetworkManager {
 
 // MARK: - Movie
 extension AFNetworkManager {
-  func getPopularMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getPopularMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       return
     }
     
-    let offset = (page - 1) * pageSize 
-    let url = baseUrl + TMDBAPI.getPopularMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
+    let url = baseUrl + TMDBAPI.getPopularMovies + "?language=\(lang)&page=\(page)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -44,14 +43,13 @@ extension AFNetworkManager {
       }
   }
   
-  func getTopRatedMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getTopRatedMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let offset = (page - 1) * pageSize
-    let url = baseUrl + TMDBAPI.getTopRatedMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
+    let url = baseUrl + TMDBAPI.getTopRatedMovies + "?language=\(lang)&page=\(page)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -72,14 +70,13 @@ extension AFNetworkManager {
       }
   }
   
-  func getNowPlayingMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getNowPlayingMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let offset = (page - 1) * pageSize
-    let url = baseUrl + TMDBAPI.getNowPlayingMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
+    let url = baseUrl + TMDBAPI.getNowPlayingMovies + "?language=\(lang)&page=\(page)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -100,14 +97,13 @@ extension AFNetworkManager {
       }
   }
   
-  func getUpcomingMovies(page: Int, pageSize: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
+  func getUpcomingMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
       //      completion(.failure())
       return
     }
     
-    let offset = (page - 1) * pageSize 
-    let url = baseUrl + TMDBAPI.getUpcomingMovies + "?language=\(lang)&page=\(page)&offset=\(offset)"
+    let url = baseUrl + TMDBAPI.getUpcomingMovies + "?language=\(lang)&page=\(page)"
     
     let headers: HTTPHeaders = [
       .authorization("Bearer \(authToken)"),
@@ -153,6 +149,61 @@ extension AFNetworkManager {
             completion(.success(data))
           case .failure(let error):
             log.error(error.localizedDescription + "\n" + "\(response)")
+            completion(.failure(error))
+        }
+      }
+  }
+}
+
+// MARK: - Details
+extension AFNetworkManager {
+  func fetchMovieDetails(with id: Int, completion: @escaping(Result<MovieDetails, Error>) -> Void) {
+    guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
+      //      completion(.failure())
+      return
+    }
+    
+    let url = baseUrl + TMDBAPI.movieDetails + String(id)
+    
+    let headers: HTTPHeaders = [
+      .authorization("Bearer \(authToken)"),
+      .accept("application/json")
+    ]
+    
+    AF.request(url, method: .get, headers: headers)
+      .validate().responseDecodable(of: MovieDetails.self) { response in
+        switch response.result {
+          case .success(let data):
+            log.debug("Fetched \(data.title) details.")
+            completion(.success(data))
+          case .failure(let error):
+            log.error(error.localizedDescription)
+            completion(.failure(error))
+        }
+      }
+  }
+  
+  func fetchMovieVideoSources(movie id: Int, completion: @escaping (Result<VideoResult, Error>) -> Void) {
+    guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
+      //      completion(.failure())
+      return
+    }
+    
+    let url = baseUrl + TMDBAPI.movieDetails + String(id) + "/videos"
+    
+    let headers: HTTPHeaders = [
+      .authorization("Bearer \(authToken)"),
+      .accept("application/json")
+    ]
+    
+    AF.request(url, method: .get, headers: headers)
+      .validate().responseDecodable(of: VideoResult.self) { response in
+        switch response.result {
+          case .success(let data):
+            log.debug("Fetched \(data.results.count) video sources.")
+            completion(.success(data))
+          case .failure(let error):
+            log.error(error.localizedDescription)
             completion(.failure(error))
         }
       }
