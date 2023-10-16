@@ -18,23 +18,38 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBU-HW-dBr">
-                        <rect key="frame" x="0.0" y="11.666666666666664" width="310" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="0.0" y="11.333333333333334" width="310" height="21.666666666666664"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mvQ-lG-5M4">
+                        <rect key="frame" x="296" y="12.333333333333334" width="24" height="20"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="aUG-Re-Dl1"/>
+                            <constraint firstAttribute="height" constant="24" id="fWJ-tS-irF"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="IBU-HW-dBr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="2GK-5k-e3n"/>
+                    <constraint firstAttribute="trailing" secondItem="mvQ-lG-5M4" secondAttribute="trailing" id="SiT-jb-Nuh"/>
+                    <constraint firstItem="mvQ-lG-5M4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="VMg-Fi-SBu"/>
                     <constraint firstAttribute="trailing" secondItem="IBU-HW-dBr" secondAttribute="trailing" constant="10" id="WJJ-mn-RVi"/>
                     <constraint firstItem="IBU-HW-dBr" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rD4-nc-uV5"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="checkMarkImageView" destination="mvQ-lG-5M4" id="4uQ-rD-Zxh"/>
                 <outlet property="titleLabel" destination="IBU-HW-dBr" id="oXO-YK-efY"/>
             </connections>
             <point key="canvasLocation" x="-21" y="20"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+    </resources>
 </document>

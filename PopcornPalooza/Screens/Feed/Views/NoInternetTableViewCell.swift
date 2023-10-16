@@ -22,8 +22,8 @@ class NoInternetTableViewCell: UITableViewCell {
     
     var title: String {
       switch self {
-        case .data: return "No movies were found with selected parameters."
-        case .network: return "You are offline. Please, enable your Wi-Fi or connect using cellular data."
+        case .data: return "no_data".localized
+        case .network: return "no_internet".localized
       }
     }
   }

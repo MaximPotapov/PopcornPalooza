@@ -19,6 +19,8 @@ final class AFNetworkManager {
 extension AFNetworkManager {
   func getPopularMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -45,7 +47,8 @@ extension AFNetworkManager {
   
   func getTopRatedMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -72,7 +75,8 @@ extension AFNetworkManager {
   
   func getNowPlayingMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -99,7 +103,8 @@ extension AFNetworkManager {
   
   func getUpcomingMovies(paging: Bool, page: Int, lang: String = "en-US", completion: @escaping (Result<MovieResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -129,7 +134,8 @@ extension AFNetworkManager {
 extension AFNetworkManager {
   func fetchMovieGenres(completion: @escaping (Result<GenreResponse, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -159,7 +165,8 @@ extension AFNetworkManager {
 extension AFNetworkManager {
   func fetchMovieDetails(with id: Int, completion: @escaping(Result<MovieDetails, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     
@@ -185,7 +192,8 @@ extension AFNetworkManager {
   
   func fetchMovieVideoSources(movie id: Int, completion: @escaping (Result<VideoResult, Error>) -> Void) {
     guard let authToken = KeychainManager.shared.retrieveAccessToken() else {
-      //      completion(.failure())
+      let tokenNotFoundError = NSError(domain: "Error", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])
+      completion(.failure(tokenNotFoundError))
       return
     }
     

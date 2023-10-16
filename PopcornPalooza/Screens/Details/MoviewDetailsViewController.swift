@@ -45,7 +45,6 @@ class MoviewDetailsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureTableView()
-    
     showActivityIndicator()
     if NetworkMonitor.shared.isReachable() {
       self.networkStatus = .connected
@@ -86,9 +85,10 @@ private extension MoviewDetailsViewController {
     viewModel.fetchMovieDetails(movieId: self.movieId) { [weak self] result in
       guard let self else { return }
       if result {
+        self.configureNavigationBar()
         self.tableView.reloadData()
       } else {
-        self.showAlert(with: "Oops, error")
+        self.showAlert(with: "error".localized)
       }
       
       self.hideActivityIndicator()
@@ -101,7 +101,7 @@ extension MoviewDetailsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let section = Sections.allCases[indexPath.section]
     if section == .poster {
-      return 300
+      return 400
     } else {
       return UITableView.automaticDimension
     }
@@ -138,6 +138,7 @@ extension MoviewDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Sections.poster.rawValue, for: indexPath) as? PosterTableViewCell else {
               return UITableViewCell()
             }
+            cell.delegate = self
             cell.configure(with: viewModel.movie)
             return cell
           case .details:
@@ -150,7 +151,6 @@ extension MoviewDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Sections.ratings.rawValue, for: indexPath) as? RatingsTableViewCell else {
               return UITableViewCell()
             }
-            cell.delegate = self
             cell.configure(with: viewModel.movie)
             return cell
           case .description:
@@ -171,8 +171,8 @@ extension MoviewDetailsViewController: UITableViewDataSource {
 }
 
 // MARK: - RatingsTableViewCellDelegate
-extension MoviewDetailsViewController: RatingsTableViewCellDelegate {
-  func openPlayer(with urlString: String?) {
+extension MoviewDetailsViewController: PosterTableViewCellDelegate {
+  func openPlayer() {
     viewModel.fetchYouTubeVideoKey { [weak self] key in
       guard let self else { return }
       if let videoKey = key {

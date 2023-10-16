@@ -34,18 +34,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="qbE-WB-zPB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="AUO-Co-QFG"/>
                     <constraint firstItem="qbE-WB-zPB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NQe-JC-P5K"/>
                     <constraint firstItem="qbE-WB-zPB" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="fKr-OX-NeQ"/>
                     <constraint firstItem="qbE-WB-zPB" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jDQ-V5-tZs"/>
                     <constraint firstAttribute="trailing" secondItem="qbE-WB-zPB" secondAttribute="trailing" id="v5E-KK-Jyq"/>
-                    <constraint firstAttribute="bottom" secondItem="qbE-WB-zPB" secondAttribute="bottom" id="zKj-qC-PdV"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="iconImageView" destination="iFg-xP-ocM" id="c5H-Pf-izz"/>
                 <outlet property="titleLabel" destination="1AR-CB-Gsd" id="wv0-b7-VjI"/>

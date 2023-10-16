@@ -7,17 +7,12 @@
 
 import UIKit
 
-protocol RatingsTableViewCellDelegate: AnyObject {
-  func openPlayer(with urlString: String?)
-}
-
 class RatingsTableViewCell: UITableViewCell {
-  weak var delegate: RatingsTableViewCellDelegate?
   private var movie = MovieDetails.mockMovieDetails()
   
   @IBOutlet weak var totalVotesLabel: UILabel!
   @IBOutlet weak var ratingLabel: UILabel!
-  @IBOutlet weak var trailerButton: UIButton!
+
   
   override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,6 +32,6 @@ class RatingsTableViewCell: UITableViewCell {
   }
   
   @IBAction func trailerTapped(_ sender: Any) {
-      delegate?.openPlayer(with: "WwAUIwb04c4")
+     
   }
 }

@@ -10,8 +10,9 @@ import UIKit
 class GenresTableViewCell: UITableViewCell {
   
   @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var checkMarkImageView: UIImageView!
   
-    override func awakeFromNib() {
+  override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
@@ -22,7 +23,8 @@ class GenresTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
   
-  func configure(with title: String) {
+  func configure(with title: String, selected: Bool = false) {
     self.titleLabel.text = title
+    self.checkMarkImageView.isHidden = !selected
   }
 }

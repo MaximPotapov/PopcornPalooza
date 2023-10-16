@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedViewController" customModule="PopcornPalooza" customModuleProvider="target">
             <connections>
                 <outlet property="categoriesSegmentedControl" destination="ny1-oE-EMi" id="Ml9-1U-EsH"/>
-                <outlet property="filterButton" destination="bsf-IF-rLl" id="Txc-yV-bnE"/>
+                <outlet property="scrollButton" destination="7Oy-J8-MdY" id="YYv-os-hYg"/>
                 <outlet property="searchBar" destination="whM-1z-Qr5" id="uQp-iq-bM7"/>
                 <outlet property="tableView" destination="fOl-Rh-XLh" id="j1j-IP-L5W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -23,8 +24,9 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="whM-1z-Qr5">
+                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter movie name" translatesAutoresizingMaskIntoConstraints="NO" id="whM-1z-Qr5">
                     <rect key="frame" x="12" y="59" width="369" height="56"/>
+                    <color key="barTintColor" name="Shell"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="1Lx-bc-zKf"/>
@@ -36,24 +38,6 @@
                     <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bsf-IF-rLl">
-                    <rect key="frame" x="317" y="726" width="60" height="60"/>
-                    <color key="backgroundColor" name="Mint"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="60" id="71f-rj-lZJ"/>
-                        <constraint firstAttribute="height" constant="60" id="Ksw-26-168"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" image="filter">
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                    </state>
-                    <buttonConfiguration key="configuration" style="plain" image="filter">
-                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
-                    </buttonConfiguration>
-                    <connections>
-                        <action selector="filterButtonTapped:" destination="-1" eventType="touchUpInside" id="NXW-12-N08"/>
-                    </connections>
-                </button>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ny1-oE-EMi">
                     <rect key="frame" x="20" y="125" width="353" height="32"/>
                     <segments>
@@ -62,24 +46,42 @@
                         <segment title="Now Playing"/>
                         <segment title="Upcoming"/>
                     </segments>
+                    <color key="selectedSegmentTintColor" name="Shell"/>
                     <connections>
                         <action selector="changeCategory:" destination="-1" eventType="valueChanged" id="oeG-l1-CZE"/>
                     </connections>
                 </segmentedControl>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Oy-J8-MdY">
+                    <rect key="frame" x="309" y="742" width="60" height="60"/>
+                    <color key="backgroundColor" name="Shell"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="Qf7-VH-hS3"/>
+                        <constraint firstAttribute="height" constant="60" id="pOE-Wg-LPv"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain">
+                        <imageReference key="image" image="arrow.up" catalog="system" symbolScale="large" renderingMode="template"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
+                        <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="filterButtonTapped:" destination="-1" eventType="touchUpInside" id="AAd-bJ-St5"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" name="Cararra"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bsf-IF-rLl" secondAttribute="trailing" constant="16" id="6JI-G4-2Bo"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fOl-Rh-XLh" secondAttribute="trailing" constant="16" id="9Gw-Xv-X1F"/>
                 <constraint firstItem="fOl-Rh-XLh" firstAttribute="top" secondItem="ny1-oE-EMi" secondAttribute="bottom" constant="10" id="C7G-hI-vfK"/>
                 <constraint firstItem="fOl-Rh-XLh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="HMr-4m-8EX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ny1-oE-EMi" secondAttribute="trailing" constant="20" id="PHA-R9-wdn"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="bsf-IF-rLl" secondAttribute="bottom" constant="32" id="RsD-zf-5dF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7Oy-J8-MdY" secondAttribute="trailing" constant="24" id="RvK-et-fIg"/>
                 <constraint firstItem="ny1-oE-EMi" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="X41-8C-U1u"/>
                 <constraint firstItem="whM-1z-Qr5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="f5S-f3-mjx"/>
                 <constraint firstItem="whM-1z-Qr5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iyF-i9-LTc"/>
                 <constraint firstAttribute="bottom" secondItem="fOl-Rh-XLh" secondAttribute="bottom" id="mtW-Cm-Yuk"/>
+                <constraint firstAttribute="bottom" secondItem="7Oy-J8-MdY" secondAttribute="bottom" constant="50" id="pTt-ej-eDH"/>
                 <constraint firstItem="ny1-oE-EMi" firstAttribute="top" secondItem="whM-1z-Qr5" secondAttribute="bottom" constant="10" id="viw-yc-cRF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="whM-1z-Qr5" secondAttribute="trailing" constant="12" id="wQc-zS-Nus"/>
             </constraints>
@@ -87,9 +89,12 @@
         </view>
     </objects>
     <resources>
-        <image name="filter" width="32" height="32"/>
-        <namedColor name="Mint">
-            <color red="0.0078431372549019607" green="0.76470588235294112" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="arrow.up" catalog="system" width="118" height="128"/>
+        <namedColor name="Cararra">
+            <color red="0.88627450980392153" green="0.83137254901960789" blue="0.77647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Shell">
+            <color red="0.52941176470588236" green="0.76470588235294112" blue="0.5607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

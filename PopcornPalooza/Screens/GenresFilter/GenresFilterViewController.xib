@@ -4,6 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +13,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenresFilterViewController" customModule="PopcornPalooza" customModuleProvider="target">
             <connections>
+                <outlet property="clearButton" destination="RJp-T2-GKO" id="RII-CN-fb3"/>
+                <outlet property="saveButton" destination="Ss1-H1-hIR" id="XIT-ld-Uis"/>
                 <outlet property="tableView" destination="eb6-up-Zth" id="rVd-NR-nm8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -20,60 +24,78 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eb6-up-Zth">
-                    <rect key="frame" x="16" y="140" width="361" height="712"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eb6-up-Zth">
+                    <rect key="frame" x="16" y="103.33333333333331" width="361" height="748.66666666666674"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select on or several genres " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nuG-2i-NUe">
-                    <rect key="frame" x="20" y="63.999999999999993" width="353" height="21.666666666666664"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="PDW-4T-EEc">
-                    <rect key="frame" x="16" y="95.666666666666671" width="361" height="34.333333333333329"/>
+                    <rect key="frame" x="16" y="69" width="361" height="34.333333333333343"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RJp-T2-GKO">
-                            <rect key="frame" x="0.0" y="0.0" width="111" height="34.333333333333336"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RJp-T2-GKO">
+                            <rect key="frame" x="0.0" y="0.0" width="135" height="34.333333333333336"/>
+                            <color key="backgroundColor" name="Coral"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="135" id="GYU-dU-end"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                             <color key="tintColor" systemColor="systemRedColor"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Clear filters"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Clear filters" image="x.circle.fill" catalog="system">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="Clear filters" imagePadding="4" titleAlignment="leading">
+                                <imageReference key="image" image="x.circle.fill" catalog="system" symbolScale="small"/>
+                                <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="16"/>
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
                             <connections>
                                 <action selector="clearFiltersTapped:" destination="-1" eventType="touchUpInside" id="cZq-l7-9MM"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ss1-H1-hIR">
-                            <rect key="frame" x="300" y="0.0" width="61" height="34.333333333333336"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ss1-H1-hIR">
+                            <rect key="frame" x="286" y="0.0" width="75" height="34.333333333333336"/>
+                            <color key="backgroundColor" name="Shell"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="75" id="Kpf-3h-B03"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Save">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
                             <connections>
                                 <action selector="saveTapped:" destination="-1" eventType="touchUpInside" id="ECY-2D-dKG"/>
                             </connections>
                         </button>
                     </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" name="Cararra"/>
             <constraints>
                 <constraint firstItem="PDW-4T-EEc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="2VK-fI-ODL"/>
                 <constraint firstAttribute="bottom" secondItem="eb6-up-Zth" secondAttribute="bottom" id="AqF-E5-yNj"/>
-                <constraint firstAttribute="trailing" secondItem="nuG-2i-NUe" secondAttribute="trailing" constant="20" id="JP8-iq-ERE"/>
-                <constraint firstItem="eb6-up-Zth" firstAttribute="top" secondItem="PDW-4T-EEc" secondAttribute="bottom" constant="10" id="bQ0-Lv-eE3"/>
-                <constraint firstItem="PDW-4T-EEc" firstAttribute="top" secondItem="nuG-2i-NUe" secondAttribute="bottom" constant="10" id="g2s-PA-hc0"/>
-                <constraint firstItem="nuG-2i-NUe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="iMM-Pk-K6w"/>
+                <constraint firstItem="PDW-4T-EEc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="Tfu-th-bCK"/>
                 <constraint firstItem="eb6-up-Zth" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="iwc-Wk-aPU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eb6-up-Zth" secondAttribute="trailing" constant="16" id="nXH-r2-gss"/>
-                <constraint firstItem="nuG-2i-NUe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="q14-Ba-MX8"/>
+                <constraint firstItem="eb6-up-Zth" firstAttribute="top" secondItem="PDW-4T-EEc" secondAttribute="bottom" id="xDk-Mw-8gn"/>
                 <constraint firstAttribute="trailing" secondItem="PDW-4T-EEc" secondAttribute="trailing" constant="16" id="xdc-PK-62d"/>
             </constraints>
             <point key="canvasLocation" x="72.51908396946564" y="19.718309859154932"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="x.circle.fill" catalog="system" width="128" height="123"/>
+        <namedColor name="Cararra">
+            <color red="0.88627450980392153" green="0.83137254901960789" blue="0.77647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Coral">
+            <color red="0.93725490196078431" green="0.46274509803921571" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Shell">
+            <color red="0.52941176470588236" green="0.76470588235294112" blue="0.5607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

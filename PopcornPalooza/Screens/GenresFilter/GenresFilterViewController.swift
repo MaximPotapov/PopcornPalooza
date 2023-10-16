@@ -14,6 +14,8 @@ class GenresFilterViewController: UIViewController {
   
   // MARK: - @IBOutlet's
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var saveButton: UIButton!
+  @IBOutlet weak var clearButton: UIButton!
   
   // MARK: - Life Cycle
   init(
@@ -30,16 +32,28 @@ class GenresFilterViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     tableView.register(UINib(nibName: "GenresTableViewCell", bundle: nil), forCellReuseIdentifier: "GenresTableViewCell")
     tableView.delegate = self
     tableView.dataSource = self
     tableView.reloadData()
+    
+    if viewModel.genres.isEmpty {
+      self.showAlert(with: "error".localized)
+    }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    saveButton.layer.cornerRadius = 8
+    clearButton.layer.cornerRadius = 8
+    
+    clearButton.setTitle("filter_clear_btn".localized, for: .normal)
+    saveButton.setTitle("filter_save_btn".localized, for: .normal)
   }
   
   // MARK: - @IBAction's
   @IBAction func clearFiltersTapped(_ sender: UIButton) {
     viewModel.clearFilters()
+    tableView.reloadData()
   }
   
   @IBAction func saveTapped(_ sender: UIButton) {
@@ -51,6 +65,16 @@ class GenresFilterViewController: UIViewController {
 extension GenresFilterViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     viewModel.updateSelection(with: viewModel.genres[indexPath.row])
+    tableView.reloadData()
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      let headerView = HeaderView()
+      return headerView
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+      return 30
   }
 }
 
@@ -65,7 +89,11 @@ extension GenresFilterViewController: UITableViewDataSource {
       return UITableViewCell()
     }
     
-    cell.configure(with: viewModel.genres[indexPath.row].name)
+    let selectedIds = LocalStorageManager.shared.getGenreFilters()
+    let genre = viewModel.genres[indexPath.row]
+    let isSelected = selectedIds.contains(genre.id)
+    
+    cell.configure(with: genre.name, selected: isSelected)
     return cell
   }
 }

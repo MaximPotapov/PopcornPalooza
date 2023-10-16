@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  PopcornPalooza
+
+  Created by Maxim Potapov on 17.10.2023.
+  
+*/
+
+// MARK: - Errors
+"no_internet" = "Ви офлайн. Будь ласка, увімкніть Wi-Fi або підключіться за допомогою стільникових даних.";
+"no_data" = "Не знайдено жодного фільму з вибраними параметрами.";
+"error" = "Помилка";
+
+// MARK: - Feed
+"feed_search_bar_placeholder" = "Введіть назву фільму";
+"feed_segmented_popular" = "Популярні";
+"feed_segmented_top" = "Рейтингові";
+"feed_segmented_now" = "В прокаті";
+"feed_segmented_upcoming" = "Майбутні";
+
+// MARK: - Filter
+"filter_clear_btn" = "Очистити фільтри";
+"filter_save_btn" = "Зберегти";
+"filter_title" = "Виберіть один або кілька жанрів";

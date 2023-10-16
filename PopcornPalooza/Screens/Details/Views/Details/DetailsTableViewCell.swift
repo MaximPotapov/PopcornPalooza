@@ -16,7 +16,7 @@ class DetailsTableViewCell: UITableViewCell {
   
   override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    self.contentView.layer.cornerRadius = 16
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -33,7 +33,7 @@ class DetailsTableViewCell: UITableViewCell {
     
     self.nameLabel.text = movie.title
     self.countryLabel.text = prodCountriesString
-    self.yearLabel.text = movie.releaseDate
+    self.yearLabel.text = movie.releaseDate.extractYearFromDateString()
     self.genresLabel.text = genresString
   }
 }

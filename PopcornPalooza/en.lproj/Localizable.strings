@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  PopcornPalooza
+
+  Created by Maxim Potapov on 17.10.2023.
+  
+*/
+
+// MARK: - Errors
+"no_internet" = "You are offline. Please, enable your Wi-Fi or connect using cellular data.";
+"no_data" = "No movies were found with selected parameters.";
+"error" = "Error";
+
+// MARK: - Feed
+"feed_search_bar_placeholder" = "Enter movie of name";
+"feed_segmented_popular" = "Popular";
+"feed_segmented_top" = "Top Rated";
+"feed_segmented_now" = "Now Playing";
+"feed_segmented_upcoming" = "Upcoming";
+
+// MARK: - Filter
+"filter_clear_btn" = "Clear filter";
+"filter_save_btn" = "Save";
+"filter_title" = "Select one or more genres";
+

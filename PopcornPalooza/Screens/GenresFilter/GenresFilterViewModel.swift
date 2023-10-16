@@ -26,6 +26,7 @@ class GenresFilterViewModel {
   }
   
   func clearFilters() {
+    self.selectedGenres.removeAll()
     LocalStorageManager.shared.saveGenreFilters(values: [])
     NotificationCenter.default.post(name: .updateGenreFiltersEvent, object: nil)
   }

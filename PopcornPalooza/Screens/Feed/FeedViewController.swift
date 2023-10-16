@@ -23,8 +23,8 @@ class FeedViewController: UIViewController {
   // MARK: - @IBOutlet's
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
-  @IBOutlet weak var filterButton: UIButton!
   @IBOutlet weak var categoriesSegmentedControl: UISegmentedControl!
+  @IBOutlet weak var scrollButton: UIButton!
   
   // MARK: - Life Cycle
   init(viewModel: FeedViewModel) {
@@ -60,19 +60,27 @@ class FeedViewController: UIViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    filterButton.layer.cornerRadius = 20
-    updateFilertButtonUI()
+    scrollButton.layer.cornerRadius = 25
+    
+    searchBar.placeholder = "feed_search_bar_placeholder".localized
+    categoriesSegmentedControl.setTitle("feed_segmented_popular".localized, forSegmentAt: 0)
+    categoriesSegmentedControl.setTitle("feed_segmented_top".localized, forSegmentAt: 1)
+    categoriesSegmentedControl.setTitle("feed_segmented_now".localized, forSegmentAt: 2)
+    categoriesSegmentedControl.setTitle("feed_segmented_upcoming".localized, forSegmentAt: 3)
   }
   
   // MARK: - @IBAction's
   @IBAction func filterButtonTapped(_ sender: Any) {
-    
+    scrollToTop()
   }
   
   @IBAction func changeCategory(_ sender: UISegmentedControl) {
     guard let dataSource = viewModel.dataSource(for: sender.selectedSegmentIndex) else { return }
     viewModel.updateDataSource(with: dataSource) { [weak self] in
-      self?.tableView.reloadSections(IndexSet(integersIn: 0...(self?.tableView.numberOfSections ?? 1) - 1), with: sender.selectedSegmentIndex == 0 ? .left : .right)
+      guard let self else { return }
+      self.scrollToTop()
+      self.scrollButton.isHidden = true
+      self.tableView.reloadSections(IndexSet(integersIn: 0...(self.tableView.numberOfSections) - 1), with: sender.selectedSegmentIndex == 0 ? .left : .right)
     }
   }
 }
@@ -90,7 +98,7 @@ private extension FeedViewController {
       target: self,
       action: #selector(rightButtonItemAction),
       size: CGSize(width: 24, height: 24),
-      name: filters.isEmpty ? "filter" : "filterOn"
+      name: "filter"
     )
   }
   
@@ -114,7 +122,14 @@ private extension FeedViewController {
   }
   
   @objc func rightButtonItemAction() {
-    coordinator?.presentFilters(genres: viewModel.movieGenres)
+    switch networkStatus {
+      case .connected:
+        coordinator?.presentFilters(genres: viewModel.movieGenres)
+      case .noInternet:
+        self.showAlert(with: "error".localized)
+      case .unknown:
+        self.showAlert(with: "error".localized)
+    }
   }
   
   @objc private func updateGenreFiltersEvent() {
@@ -140,63 +155,7 @@ private extension FeedViewController {
     // Check if the user has enabled internet connectivity
     if NetworkMonitor.shared.isReachable() {
       networkStatus = .connected
-      
-      switch viewModel.dataSource {
-        case .popular:
-          viewModel.fetchPopularMovies(
-            paging: false,
-            completion: { [weak self] result in
-            guard let self else { return }
-            if result {
-              self.viewModel.updateDataSource(
-                with: .popular,
-                completion: { self.tableView.reloadData() })
-            } else {
-              self.showAlert(with: "Oops")
-            }
-          })
-        case .topRated:
-          viewModel.fetchTopRatedMovies(
-            paging: false,
-            completion: { [weak self] result in
-              guard let self else { return }
-              if result {
-                self.viewModel.updateDataSource(
-                  with: .topRated,
-                  completion: { self.tableView.reloadData() })
-              } else {
-                self.showAlert(with: "Oops")
-              }
-            })
-        case .nowPlaying:
-          viewModel.fetchNowPlayingMovies(
-            paging: false,
-            completion: { [weak self] result in
-              guard let self else { return }
-              if result {
-                self.viewModel.updateDataSource(
-                  with: .nowPlaying,
-                  completion: { self.tableView.reloadData() })
-              } else {
-                self.showAlert(with: "Oops")
-              }
-            })
-        case .upcoming:
-          viewModel.fetchUpcomingMovies(
-            paging: false,
-            completion: { [weak self] result in
-              guard let self else { return }
-              if result {
-                self.viewModel.updateDataSource(
-                  with: .upcoming,
-                  completion: { self.tableView.reloadData() })
-              } else {
-                self.showAlert(with: "Oops")
-              }
-            })
-        case .searched: break
-      }
-      
+      fetchData()
     } else {
       networkStatus = .noInternet
       tableView.separatorStyle = .none
@@ -204,15 +163,6 @@ private extension FeedViewController {
     
     tableView.reloadData()
     refreshControl.endRefreshing()
-    updateFilertButtonUI()
-  }
-  
-  func updateFilertButtonUI() {
-    switch networkStatus {
-      case .noInternet: filterButton.setImage(UIImage(named: "sad"), for: .normal)
-      case .connected: filterButton.setImage(UIImage(named: "filter"), for: .normal)
-      case .unknown: filterButton.setImage(UIImage(named: "filter"), for: .normal)
-    }
   }
   
   func fetchData() {
@@ -228,7 +178,7 @@ private extension FeedViewController {
           completion: { self.tableView.reloadData()
           })
       } else {
-        self.showAlert(with: "Oops")
+        self.showAlert(with: "error".localized)
       }
         self.hideActivityIndicator()
     })
@@ -255,12 +205,21 @@ private extension FeedViewController {
     
     return footerView
   }
+  
+  func scrollToTop() {
+    let indexPath = IndexPath(row: 0, section: 0)
+    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+  }
 }
 
 // MARK: - UITableViewDelegate
 extension FeedViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    400
+    switch networkStatus {
+      case .connected: return viewModel.currentDataSource.isEmpty ? 300 : 550
+      case .noInternet: return 300
+      case .unknown: return 0
+    }
   }
 }
 
@@ -269,13 +228,11 @@ extension FeedViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let filters = LocalStorageManager.shared.getGenreFilters()
     switch networkStatus {
-      case .noInternet:
-        return 1
+      case .noInternet: return 1
       case .connected:
         let movies: [Movie] = filters.isEmpty ? viewModel.currentDataSource : viewModel.returnFilteredByGenresDataSource()
         return max(movies.isEmpty ? 1 : movies.count, 1)
-      case .unknown:
-        return 0
+      case .unknown: return 0
     }
   }
   
@@ -297,6 +254,7 @@ extension FeedViewController: UITableViewDataSource {
         
         if movies.isEmpty {
           let cell = tableView.dequeueReusableCell(withIdentifier: "NoInternetTableViewCell", for: indexPath) as? NoInternetTableViewCell ?? NoInternetTableViewCell()
+          scrollButton.isHidden = true
           cell.configure(with: .data)
           return cell
         } else {
@@ -340,7 +298,13 @@ extension FeedViewController: UIScrollViewDelegate {
     let possition = scrollView.contentOffset.y
     if possition > (tableView.contentSize.height - 100 - scrollView.frame.size.height)  {
       guard !viewModel.isPaginating else { return }
-      self.tableView.tableFooterView = self.createSpinnerFooter()
+      if !viewModel.currentDataSource.isEmpty {
+        self.tableView.tableFooterView = self.createSpinnerFooter()
+      }
+      
+      if viewModel.currentDataSource.count > 0 {
+        self.scrollButton.isHidden = false
+      }
       
       switch viewModel.dataSource {
         case .popular:
@@ -420,6 +384,7 @@ extension FeedViewController: ActivityIndicatorViewDelegate {
   func showActivityIndicator() {
     let activityIndicatorView = ActivityIndicatorView(frame: view.bounds)
     activityIndicatorView.startAnimating()
+    tableView.alpha = 0
     view.addSubview(activityIndicatorView)
   }
   
@@ -430,7 +395,10 @@ extension FeedViewController: ActivityIndicatorViewDelegate {
         UIView.transition(with: self.tableView,
                           duration: 0.5,
                           options: .transitionCrossDissolve,
-                          animations: { self.tableView.reloadData() })
+                          animations: {
+          self.tableView.reloadData()
+          self.tableView.alpha = 1
+        })
       } }
   }
 }

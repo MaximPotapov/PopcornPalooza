@@ -18,24 +18,64 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="movie_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Zsl-Ld-SWG">
-                        <rect key="frame" x="0.0" y="0.0" width="322" height="235"/>
+                        <rect key="frame" x="0.0" y="0.0" width="322" height="195"/>
                     </imageView>
+                    <button opaque="NO" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkL-lz-xjW">
+                        <rect key="frame" x="218" y="175" width="94" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="SeC-dq-kon"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="player"/>
+                        <connections>
+                            <action selector="trailerButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hnh-s1-5Lh"/>
+                        </connections>
+                    </button>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="WfI-uH-M3o">
+                        <rect key="frame" x="16" y="195" width="296" height="40"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rating" translatesAutoresizingMaskIntoConstraints="NO" id="mDm-mp-hND">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="S1J-cu-w66"/>
+                                    <constraint firstAttribute="height" constant="40" id="aO0-fQ-9dg"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHO-Il-uHq">
+                                <rect key="frame" x="60" y="0.0" width="236" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstItem="WfI-uH-M3o" firstAttribute="top" secondItem="Zsl-Ld-SWG" secondAttribute="bottom" id="3uy-Ci-Asu"/>
                     <constraint firstAttribute="trailing" secondItem="Zsl-Ld-SWG" secondAttribute="trailing" id="7qL-ct-NHf"/>
                     <constraint firstItem="Zsl-Ld-SWG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="E74-RM-ed6"/>
+                    <constraint firstAttribute="trailing" secondItem="WfI-uH-M3o" secondAttribute="trailing" constant="10" id="QjN-ay-rnq"/>
+                    <constraint firstAttribute="trailing" secondItem="wkL-lz-xjW" secondAttribute="trailing" constant="10" id="dYe-ET-hPX"/>
                     <constraint firstItem="Zsl-Ld-SWG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="eB2-ky-v2Z"/>
-                    <constraint firstAttribute="bottom" secondItem="Zsl-Ld-SWG" secondAttribute="bottom" id="nMa-Ml-6oQ"/>
+                    <constraint firstItem="WfI-uH-M3o" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="gLA-jP-FfE"/>
+                    <constraint firstAttribute="bottom" secondItem="Zsl-Ld-SWG" secondAttribute="bottom" constant="40" id="nMa-Ml-6oQ"/>
+                    <constraint firstAttribute="bottom" secondItem="wkL-lz-xjW" secondAttribute="bottom" constant="20" id="zqy-di-DNd"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="posterImage" destination="Zsl-Ld-SWG" id="w10-7d-Xal"/>
+                <outlet property="ratingLabel" destination="GHO-Il-uHq" id="b57-d7-E36"/>
+                <outlet property="trailerButton" destination="wkL-lz-xjW" id="dcC-C6-uz3"/>
             </connections>
             <point key="canvasLocation" x="137.40458015267174" y="86.971830985915503"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="movie_placeholder" width="295" height="475"/>
+        <image name="player" width="70" height="70"/>
+        <image name="rating" width="64" height="64"/>
     </resources>
 </document>

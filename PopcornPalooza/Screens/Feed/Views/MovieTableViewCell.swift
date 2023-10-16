@@ -15,7 +15,6 @@ class MovieTableViewCell: UITableViewCell {
   @IBOutlet weak var genresLabel: UILabel!
   @IBOutlet weak var yearLabel: UILabel!
   @IBOutlet weak var ratingLabel: UILabel!
-  @IBOutlet weak var ratingView: UIView!
   @IBOutlet weak var moviePosterImageView: UIImageView!
   
   // MARK: - Life Cycle
@@ -24,14 +23,13 @@ class MovieTableViewCell: UITableViewCell {
     self.clipsToBounds = true
     contentView.layer.cornerRadius = 16
     descriptionView.layer.cornerRadius = 16
-    ratingView.layer.cornerRadius = 35
-    ratingView.layer.borderWidth = 3
-    ratingView.layer.borderColor = UIColor.white.cgColor
+    moviePosterImageView.layer.cornerRadius = 16
+    moviePosterImageView.addShadow()
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 14, left: 0, bottom: 14, right: 0))
+    contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 0))
   }
   
   override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,7 +43,7 @@ class MovieTableViewCell: UITableViewCell {
     let genresString = genres.joined(separator: ", ")
     self.genresLabel.text = genresString
     self.nameLabel.text = movie.title
-    self.yearLabel.text = movie.releaseDate
+    self.yearLabel.text = movie.releaseDate.extractYearFromDateString()
     self.ratingLabel.text = String(movie.voteAverage)
     
     if let posterUrl = movie.posterPath {
